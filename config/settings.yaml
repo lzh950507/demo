@@ -1,0 +1,13 @@
+default:
+  app_name: "FastDemo"
+  version: "0.1.0"
+  logging:
+    level: debug
+    file:
+      path: "./logs"
+
+dev:
+  reload: true
+
+prod:
+  reload: false
