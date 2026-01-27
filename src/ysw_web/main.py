@@ -13,13 +13,17 @@ from ysw_web.routers import asr
 
 
 @asynccontextmanager
-async def lifespan(app: FastAPI):
+async def lifespan(_: FastAPI):
     # Setup logging using pathlib
-    log_dir = settings.logging.file.path
-    setup_logging(log_dir=log_dir)
+    setup_logging()
     logger.info(f"env: {settings.current_env}")
-    logger.info(f"Logging to {log_dir}")
     logger.info("Service Starting up")
+
+    # Eagerly initialize ASR model
+    logger.info("Initializing ASR model...")
+    asr.asr_model.initialize()
+    logger.info("ASR model initialized.")
+    
     yield
     logger.info("Service Shutting down")
 

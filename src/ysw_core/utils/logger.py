@@ -2,11 +2,8 @@ import logging
 import os
 import sys
 from pathlib import Path
-
+from dynaconf import Dynaconf
 from loguru import logger
-
-from ysw_core.utils.config import settings
-
 
 class InterceptHandler(logging.Handler):
     """
@@ -37,7 +34,10 @@ class InterceptHandler(logging.Handler):
         )
 
 
-def setup_logging(log_dir: Path):
+def setup_logging(config: Dynaconf = None):
+    if config is None:
+        from ysw_core.utils.config import settings
+        config = settings
     """
     配置日志系统
 
@@ -70,7 +70,7 @@ def setup_logging(log_dir: Path):
     logger.add(
         sys.stdout,
         format=log_format,
-        level="DEBUG" if settings.logging.level else "INFO",
+        level="DEBUG" if config.logging.level else "INFO",
         # enqueue=True,  # 启用异步写入
         backtrace=False,  # 显示完整的异常回溯
         # diagnose=True,  # 显示变量值等诊断信息
@@ -80,7 +80,8 @@ def setup_logging(log_dir: Path):
     )
 
     # 步骤4：创建日志目录
-    if settings.current_env.lower() == "prod":
+    if config.current_env.lower() == "prod":
+        log_dir = config.logging.file.path
 
         if not os.path.exists(log_dir):
             os.makedirs(log_dir)
@@ -123,5 +124,5 @@ def setup_logging(log_dir: Path):
         _logger.propagate = True 
 
     # 将 root logging 的 handler 替换为 InterceptHandler
-    logging.getLogger().handlers = [InterceptHandler()]
-
+    # logging.getLogger().handlers = [InterceptHandler()]
+    logging.basicConfig(handlers=[InterceptHandler()], level=0, force=True)

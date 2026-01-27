@@ -31,7 +31,7 @@ def main():
         host = settings.get("host", "0.0.0.0")
         port = settings.get("port", 8000)
 
-        print(f"🔧 Config: Debug={settings.DEBUG}, Reload={should_reload}")
+        print(f"🔧 Config: Debug={settings.get('DEBUG', False)}, Reload={should_reload}")
 
         uvicorn.run(
             "ysw_web.main:app",

@@ -2,12 +2,14 @@ default:
   app_name: "FastDemo"
   version: "0.1.0"
   logging:
-    level: debug
+    level: info
     file:
       path: "./logs"
-
-dev:
+  asr:
+    provider: "faster-whisper"
+    faster_whisper:
+      model_size: "base"
+      device: "cpu"
+      compute_type: "int8"
+development:
   reload: true
-
-prod:
-  reload: false
