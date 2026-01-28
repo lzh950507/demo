@@ -13,6 +13,7 @@ class TranscriptionResult:
     text: str
     language: Optional[str] = None
     segments: Optional[List[Dict]] = None
+    words: Optional[List[Dict]] = None
 
 class ASRModel:
     """

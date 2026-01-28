@@ -8,10 +8,10 @@ from loguru import logger
 
 async def http_exception_handler(request: Request, ex: StarletteHTTPException):
     return JSONResponse(
-        status_code=ex.status_code,
+        status_code=200,
         content={
             "code": ex.status_code,
-            "message": ex.detail,
+            "msg": ex.detail,
             "data": None
         }
     )
@@ -20,11 +20,11 @@ async def http_exception_handler(request: Request, ex: StarletteHTTPException):
 async def validation_exception_handler(request: Request, ex: RequestValidationError):
 
     return JSONResponse(
-        status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+        status_code=status.HTTP_200_OK,
         content={
             "code": status.HTTP_422_UNPROCESSABLE_ENTITY,
-            "message": "参数校验错误",
-            "data": str(ex)
+            "msg": "参数校验错误",
+            "data": None
         }
     )
 
@@ -32,11 +32,11 @@ async def validation_exception_handler(request: Request, ex: RequestValidationEr
 async def general_exception_handler(request: Request, exc: Exception):
     logger.error("系统异常", exc)
     return JSONResponse(
-        status_code=500,
+        status_code=status.HTTP_200_OK,
         content={
             "code": status.HTTP_500_INTERNAL_SERVER_ERROR,
-            "message": "服务内部错误",
-            "data": str(exc) if hasattr(exc, 'args') and len(exc.args) > 0 else None
+            "msg": "服务内部错误",
+            "data": None
         }
     )
 

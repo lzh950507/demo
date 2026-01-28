@@ -5,9 +5,6 @@ from ysw_ai.asr.faster_whisper_model import FasterWhisperASRModel
 
 from ysw_core.utils.config import settings
 
-os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
-
-
 def getASRModel() -> ASRModel:
     if settings.asr.provider == "faster-whisper":
         config = {

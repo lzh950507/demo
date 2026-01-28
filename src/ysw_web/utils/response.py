@@ -2,7 +2,7 @@ from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
 
 def create(code: int = 0, message: str = "success", data: dict = None) -> dict:
-    content = {"code": code, "message": message, "data": data}
+    content = {"code": code, "msg": message, "data": data}
     return JSONResponse(content = jsonable_encoder(content))
 
 

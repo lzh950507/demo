@@ -1,16 +1,17 @@
 from contextlib import asynccontextmanager
 
+import os
+import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from loguru import logger
-import uvicorn
-
-from ysw_core.utils.logger import setup_logging
 from ysw_core.utils.config import settings
-from ysw_web.utils.exception_handlers import register_exception_handlers
-from ysw_web.routers import home
+from ysw_core.utils.logger import setup_logging
 from ysw_web.routers import asr
+from ysw_web.routers import home
+from ysw_web.utils.exception_handlers import register_exception_handlers
 
+os.environ["HF_ENDPOINT"] = "https://hf-mirror.com"
 
 @asynccontextmanager
 async def lifespan(_: FastAPI):

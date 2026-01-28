@@ -88,6 +88,24 @@ class FasterWhisperASRModel(ASRModel):
 
             # 准备分段信息
             segment_details = []
+
+            word_details = [] if word_timestamps else None
+            for seg in segments_list:
+                # 获取单词信息
+                segment_details.append({
+                    "text": seg.text,
+                    "start": seg.start,
+                    "end": seg.end,
+                })
+                if word_timestamps and hasattr(seg, 'words') and seg.words:
+                    for word_obj in seg.words:
+                        word_info = {
+                            "text": word_obj.word,
+                            "start": word_obj.start,
+                            "end": word_obj.end,
+                            "segment_index": len(segment_details)  # 记录所属段落的索引
+                        }
+                        word_details.append(word_info)
             for seg in segments_list:
                 segment_details.append({
                     "text": seg.text,
@@ -98,7 +116,8 @@ class FasterWhisperASRModel(ASRModel):
             return TranscriptionResult(
                 text=full_text.strip(),
                 language=info.language if info.language else (language or self.default_language),
-                segments=segment_details
+                segments=segment_details,
+                words=word_details
             )
 
         except Exception as e:
