@@ -758,6 +758,5 @@ cython_debug/
 *.iml
 out
 gen
-uv.lock
 
 temp_file
