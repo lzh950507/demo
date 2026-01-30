@@ -48,4 +48,4 @@ app.include_router(asr.router)
 
 
 if __name__ == '__main__':
-    uvicorn.run("main:app", host="0.0.0.0", port=8000, reload=True, log_config=None)
+    uvicorn.run("main:app", host="0.0.0.0", port=48180, reload=True, log_config=None)

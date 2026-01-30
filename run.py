@@ -29,7 +29,7 @@ def main():
         # Note: In settings.yaml, we have 'reload' key in dev/prod
         should_reload = settings.get("reload", False)
         host = settings.get("host", "0.0.0.0")
-        port = settings.get("port", 8000)
+        port = settings.get("port", 48180)
 
         print(f"🔧 Config: Debug={settings.get('DEBUG', False)}, Reload={should_reload}")
 
